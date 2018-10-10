@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "922634458660",
+    "firebase_url": "https://spook-loot.firebaseio.com",
+    "project_id": "spook-loot",
+    "storage_bucket": "spook-loot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:922634458660:android:bfba22ac5d2c6be8",
+        "android_client_info": {
+          "package_name": "com.spookyloot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "922634458660-178bk04o0696eoi53vgohc7pqu1hdb5h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwSzC1UXs-qSC1P4ZxnDLKA3oFdz4v0Rk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "2"
+}
