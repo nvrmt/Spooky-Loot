@@ -1,12 +1,12 @@
-import { createReducer, createActions } from 'reduxsauce';
+import {createReducer, createActions} from 'reduxsauce';
 import Immutable from 'seamless-immutable';
 
 /* ------------- Types and Action Creators ------------- */
 
-const { Types, Creators } = createActions({
-  authCheck: [''],
-  authCheckSuccess: [],
-  authCheckFailure: []
+const {Types, Creators} = createActions({
+    authCheck: [],
+    authCheckSuccess: ['user'],
+    authCheckFailure: []
 });
 
 export const AuthTypes = Types;
@@ -15,31 +15,31 @@ export default Creators;
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  authorized: false,
-    user: null,
-  error: null,
+    user: {},
+    error: null,
+    authorized: false,
+    checking: false
 });
 
 /* ------------- Reducers ------------- */
 
-export const check = (state: Object) => state.merge({ authorized: true });
+export const request = (state: Object) =>
+    state.merge({checking: true});
 
 export const success = (state: Object, { user }: Object) =>
-  state.merge({  authorized: true, error: null });
+    state.merge({checking: false, authorized: true, error: null, user: user});
 
 export const failure = (state: Object, { error }: Object) =>
-  state.merge({ authorized: false, error });
+    state.merge({checking: false, authorized: false, error});
 
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.AUTH_CHECK]: check,
-  [Types.AUTH_CHECK_SUCCESS]: success,
-  [Types.AUTH_CHECK_FAILURE]: failure
+    [Types.AUTH_CHECK]: request,
+    [Types.AUTH_CHECK_SUCCESS]: success,
+    [Types.AUTH_CHECK_FAILURE]: failure
 });
-
-/* ------------- API ------------- */
 
 
 /* ------------- Selectors ------------- */

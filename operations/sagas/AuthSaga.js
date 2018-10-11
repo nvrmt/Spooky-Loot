@@ -1,24 +1,39 @@
-import { call, put } from 'redux-saga/effects'
+import { take, fork, all, call, put, takeLatest, takeEvery } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import AuthOperations from '../AuthOperations';
 import firebase from 'react-native-firebase';
 
+import { AuthTypes } from "../AuthOperations";
 
-// Watchers
-export function* checkForAuth (api, action) {
-    const response = yield call(() => {
-        return fetch('https://jsonplaceholder.typicode.com/users/1')
-            .then((response) => response.json())
-            .then((responseJson) => {
-                return responseJson
-            })
-            .catch((error) => {
-                console.error(error)
-            })
-    });
-
-    if (response) {
-        yield put(UserActions.loginSuccess(response))
+//TODO: first saga, refactor as needed
+//So we auto login via firebase
+function* watchForAuth() {
+    const user = firebase.auth().currentUser;
+    if(user != null) {
+        console.log("Authorized");
+        let jsonData = JSON.stringify(user.toJSON());
+        let info = JSON.parse(jsonData);
+        console.log(info);
+        yield put({type: AuthTypes.AUTH_CHECK_SUCCESS, payload: info});
     } else {
-        yield put(UserActions.loginFailure())
+        console.log("Not authorized");
+        yield put({type: AuthTypes.AUTH_CHECK_FAILURE});
     }
 }
+
+function* watchForSuccess(action) {
+    console.log("Checked auth success");
+}
+
+function* watchForAuthFailure(action) {
+    console.log("Failed to auth");
+}
+
+
+/* ------------- Hookup Sagas To Types ------------- */
+
+ export default function* root () {
+     yield takeLatest(AuthTypes.AUTH_CHECK, watchForAuth);
+     yield takeLatest(AuthTypes.AUTH_CHECK_SUCCESS, watchForSuccess);
+     yield takeLatest(AuthTypes.AUTH_CHECK_FAILURE, watchForAuthFailure);
+ }
