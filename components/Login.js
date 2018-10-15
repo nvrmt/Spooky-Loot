@@ -3,20 +3,16 @@ import firebase from 'react-native-firebase';
 import { AccessToken, LoginManager, LoginButton } from 'react-native-fbsdk';
 
 import { StyleSheet, Button, View, Text } from 'react-native';
-import AuthOperations from "../operations/AuthOperations";
+import AuthRedux, {isUserAuthenticated} from "../redux/AuthRedux";
 import { connect } from 'react-redux';
 
 class Login extends React.Component {
     onLogin() {
-        AccessToken.getCurrentAccessToken().then(
-            (data) => {
-                this.firebaseAuth(data.accessToken);
-            }
-        )
+        this.firebaseAuth();
     }
 
 //TODO: turn this into a saga
-    async firebaseAuth(accessToken) {
+    async firebaseAuth() {
         try {
             const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
 
@@ -31,7 +27,7 @@ class Login extends React.Component {
                 throw new Error('Something went wrong obtaining the users access token'); // Handle this however fits the flow of your app
             }
 
-            const credential = firebase.auth.FacebookAuthProvider.credential(accessToken);
+            const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
             const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
             let jsonData = JSON.stringify(currentUser.user.toJSON());
             let info = JSON.parse(jsonData);
@@ -46,19 +42,17 @@ class Login extends React.Component {
     render() {
         return <Button
             onPress={ () => this.onLogin() }
-            title="Login"
+            title="Connect with Facebook"
             color="#FF5E00"/>;
     }
 }
 
 const mapStateToProps = (state) => {
-    return {
-        authorized: state.authorization.authorized
-    }
+    return {}
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        checkAuth: () => dispatch(AuthOperations.authCheck())
+        checkAuth: () => dispatch(AuthRedux.authCheck())
     }
 };
 

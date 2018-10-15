@@ -10,7 +10,8 @@ import Map from "../components/Map";
 class HubContainer extends React.Component {
     render() {
         //const store = this.props.store;
-        //const state = store.getState();
+       // const state = store.getState();
+
         return (
             <View style={styles.container}>
                 <Map/>

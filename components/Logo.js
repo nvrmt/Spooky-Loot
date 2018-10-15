@@ -7,7 +7,7 @@ import spookyLogo from '../images/logo.png';
 export default class Logo extends React.Component {
     render() {
         return (
-            <View >
+            <View>
                 <Image source={spookyLogo}/>
             </View>
         );
