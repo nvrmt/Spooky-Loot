@@ -5,10 +5,9 @@ import produce from 'immer';
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-    // Version
-    getVersion: ['updateStatus'],
-    getVersionSuccess: ['version'],
-    getVersionFailure: null,
+    getUpdate: ['version'],
+    getUpdateSuccess: ['version'],
+    getUpdateFailure: null,
 
     // Updating
     sendUpdateStatus: ['status'],
@@ -63,12 +62,9 @@ export const sendUpdateStatus = (state, action) =>
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-    // Version
-  [Types.GET_VERSION]: request,
-  [Types.GET_VERSION_SUCCESS]: success,
-  [Types.GET_VERSION_FAILURE]: failure,
-
-    // Update
+  [Types.GET_UPDATE]: request,
+  [Types.GET_UPDATE_SUCCESS]: success,
+  [Types.GET_UPDATE_FAILURE]: failure,
     [Types.SEND_UPDATE_STATUS]: sendUpdateStatus,
 });
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import {BackHandler, Platform} from 'react-native'
 import {connect} from 'react-redux'
-import { AppNavigator } from '../Navigation/AppNavigation';
+import { AppNavigator } from './/AppNavigation';
 import NavigationActions from "react-navigation/src/NavigationActions";
 
 class ReduxNavigation extends React.Component {

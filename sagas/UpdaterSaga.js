@@ -1,4 +1,4 @@
-import { take, fork, all, call, put, takeLatest, takeEvery } from 'redux-saga/effects'
+import { take, fork, all, call, put, takeLatest, takeEvery, select  } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import UpdaterRedux from '../redux/UpdaterRedux';
 
@@ -8,22 +8,16 @@ import { AuthTypes } from "../redux/AuthRedux";
 // Mock updates to simulate flow
 function* checkForUpdates() {
     yield sendUpdateStatus("Checking...");
-    yield delay(1000);
+    yield delay(750);
     yield sendUpdateStatus("Updates found!");
-    yield delay(1500);
+    yield delay(750);
     yield sendUpdateStatus("Updating was a success.");
-    yield put({type: UpdaterTypes.GET_VERSION_SUCCESS, payload: '1'});
+    yield put({type: UpdaterTypes.GET_UPDATE_SUCCESS, payload: '1'});
 }
 
 // the "updates" fetched from above
 function* getUpdates(payload) {
-    console.log("Got update " + payload);
 
-    //Updated now lets do an auth check to cause an auto login to happen
-    yield put({type: AuthTypes.AUTH_CHECK_QUICK});
-
-    yield delay(1000);
-    //yield put({type: "AUTH_CHECK"});
 }
 
 // Helper functions
@@ -34,6 +28,6 @@ function sendUpdateStatus(newStatus) {
 /* ------------- Hookup Sagas To Types ------------- */
 
  export default function* root () {
-     yield takeLatest(UpdaterTypes.GET_VERSION, checkForUpdates);
-     yield takeLatest(UpdaterTypes.GET_VERSION_SUCCESS, getUpdates);
+     yield takeEvery(UpdaterTypes.GET_UPDATE, checkForUpdates);
+     yield takeEvery(UpdaterTypes.GET_UPDATE_SUCCESS, getUpdates);
  }

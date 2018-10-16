@@ -1,65 +1,84 @@
-import {createReducer, createActions} from 'reduxsauce';
+import {createReducer, createActions, createTypes} from 'reduxsauce';
 import Immutable from 'seamless-immutable';
 import produce from "immer";
+import {StartupTypes} from "./StartupRedux";
 
 /* ------------- Types and Action Creators ------------- */
 
-const {Types, Creators} = createActions({
-    authCheck: [],
-    authCheckSuccess: ['user'],
-    authCheckFailure: [],
-
-
-    authCheckQuick: [],
+const { Creators } = createActions({
+    loginRequest: null,
 });
 
-export const AuthTypes = Types;
+export const AuthTypes = createTypes(`
+  LOGIN_REQUEST
+  LOGIN_SUCCESS
+  LOGIN_FAILURE
+  
+  VERIFY_AUTH_REQUEST
+  VERIFY_AUTH_SUCCESS
+  VERIFY_AUTH_FAILURE
+`, {});
+
 export default Creators;
+
+const Types = AuthTypes;
 
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
     user: null,
     error: null,
-    authorized: false,
     checking: false
 });
 
 /* ------------- Reducers ------------- */
 
-export const request = (state, action) =>
+// Login
+export const login_Request = (state, action) =>
     produce(state, draft => {draft.checking = true});
 
-export const success = (state, action) =>
+export const login_Success = (state, action) =>
     produce(state, draft => {
         draft.checking = false;
-        draft.authorized = true;
-        draft.error = action.error;
-        draft.user = action.payload;
+        draft.user = action.user;
 });
 
-export const failure = (state, action) =>
+export const login_Failure = (state, action) =>
     produce(state, draft => {
         draft.checking = false;
-        draft.authorized = false;
         draft.error = action.error;
-        draft.user = null;
 });
+
+// Verify Auth
+export const verifyAuth_Request = (state, action) =>
+    produce(state, draft => {draft.checking = true});
+
+export const verifyAuth_Success = (state, action) =>
+    produce(state, draft => {
+        draft.checking = false;
+        draft.user = action.payload;
+    });
+
+export const verifyAuth_Failure = (state, action) =>
+    produce(state, draft => {
+        draft.checking = false;
+        draft.error = action.error;
+    });
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-    [Types.AUTH_CHECK]: request,
-    [Types.AUTH_CHECK_SUCCESS]: success,
-    [Types.AUTH_CHECK_FAILURE]: failure,
+    [Types.LOGIN_REQUEST]: login_Request,
+    [Types.LOGIN_SUCCESS]: login_Success,
+    [Types.LOGIN_FAILURE]: login_Failure,
 
-    [Types.AUTH_CHECK_QUICK]: success,
+    [Types.VERIFY_AUTH_REQUEST]: verifyAuth_Request,
+    [Types.VERIFY_AUTH_SUCCESS]: verifyAuth_Success,
+    [Types.VERIFY_AUTH_FAILURE]: verifyAuth_Failure,
 });
 
 
 /* ------------- Selectors ------------- */
 
 // check if authorized isn't false to confirm we're authorized
-export const isUserAuthenticated = (authState: Object) => {
-    return (authState.user != null);
-};
+export const isUserAuthenticated = (authState: Object) => authState.user !== null;

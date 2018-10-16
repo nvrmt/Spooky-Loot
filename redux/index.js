@@ -2,11 +2,13 @@ import { combineReducers } from 'redux';
 import { createNavigationReducer } from "react-navigation-redux-helpers";
 import configureStore from '../store/SetupStore';
 import rootSaga from '../sagas';
-import { RootNavigator } from '../Navigation/AppNavigation';
+import { RootNavigator } from '../navigation/AppNavigation';
 
 //Reducers
 import {reducer as UpdaterReducer} from "../redux/UpdaterRedux";
 import {reducer as AuthReducer} from "../redux/AuthRedux";
+import {reducer as InitReducer} from "./StartupRedux";
+
 
 const navReducer = createNavigationReducer(RootNavigator);
 
@@ -14,8 +16,9 @@ const navReducer = createNavigationReducer(RootNavigator);
 
 export const reducers = combineReducers({
     nav: navReducer,
-    Updater: UpdaterReducer,
-    Authorization: AuthReducer,
+    updater: UpdaterReducer,
+    authorization: AuthReducer,
+    init: InitReducer,
 });
 
 export default () => {

@@ -1,6 +1,6 @@
 import { applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { middleware as navMiddleware } from '../Navigation/AppNavigation';
+import { middleware as navMiddleware } from '../navigation/AppNavigation';
 
 // creates the store
 export default (rootReducer, rootSaga) => {
@@ -9,7 +9,7 @@ export default (rootReducer, rootSaga) => {
     const middleware = [];
     const enhancers = [];
 
-    /* ------------- Navigation Middleware ------------ */
+    /* ------------- navigation Middleware ------------ */
 
     middleware.push(navMiddleware);
 

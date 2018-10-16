@@ -7,30 +7,23 @@ import connect from "react-redux/es/connect/connect";
 import Logo from "../components/Logo";
 import Login from "../components/Login";
 
+import Styles from "../styles";
+
 //Selectors
 import AuthRedux, { isUserAuthenticated } from "../redux/AuthRedux";
 
 
-class LoginScreen extends React.Component {
+class AuthScreen extends React.Component {
     render() {
-        console.log(this.props);
-
         return (
-            <View style={styles.container}>
+            <View style={Styles.container}>
+                <Logo />
                 <Login />
             </View>
         )
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#ff4a1a',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-});
 
 const mapStateToProps = (state) => {
     return {
@@ -38,8 +31,7 @@ const mapStateToProps = (state) => {
     }
 };
 const mapDispatchToProps = (dispatch) => {
-    return {
-    }
+    return {}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);

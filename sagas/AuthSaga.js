@@ -1,53 +1,74 @@
-import { take, fork, all, call, put, takeLatest, takeEvery } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
+import {put, takeLatest, take, takeEvery} from 'redux-saga/effects'
+import { delay } from 'redux-saga';
 import firebase from 'react-native-firebase';
-
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { AuthTypes } from "../redux/AuthRedux";
+import { NavigationActions } from "react-navigation";
 
-//TODO: first saga, refactor as needed
-//So we auto login via firebase
-function* watchForAuth() {
-    let user = null;
-    while (user == null) {
-        user = firebase.auth().currentUser;
-        yield delay(100);
-        //let jsonData = JSON.stringify(user.toJSON());
+//TODO eventually seperate facebook and API logic code from sagas.
+
+// Login
+function* onLogin_Request(action) {
+    const result = yield LoginManager.logInWithReadPermissions(['public_profile', 'email']);
+
+    if (result.isCancelled) {
+        console.tron.log("Cancelled login.");
+        yield delay(1000); // after 1 second re-send login request aka, making the modal launch again
+        yield put({type: AuthTypes.LOGIN_REQUEST});
+        return;
     }
 
-    if(user) {
-        yield put({type: AuthTypes.AUTH_CHECK_SUCCESS, payload: user});
-    } else         {
-        yield put({type: AuthTypes.AUTH_CHECK_FAILURE});
+    // get the access token
+    const data = yield AccessToken.getCurrentAccessToken();
+
+    if (!data) {
+        throw new Error('Something went wrong obtaining the users access token'); // Handle this however fits the flow of your app
+    }
+
+    const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+    const user = yield firebase.auth().signInAndRetrieveDataWithCredential(credential);
+
+    if(user != null) {
+        yield put({type: AuthTypes.LOGIN_SUCCESS, user})
+    } else {
+        yield put({type: AuthTypes.LOGIN_FAILURE});
     }
 }
 
-// Quick check rather than waiting for the auth
-function* checkForAuth() {
+function* onLogin_Success(action) {
+    yield put(NavigationActions.navigate({ routeName: 'Home' }));
+}
+
+function* onLogin_Failed(action) {
+
+}
+
+// Verify Auth
+function* onVerifyAuth_Request(action) {
     const user = firebase.auth().currentUser;
 
     if(user) {
-        yield put({type: AuthTypes.AUTH_CHECK_SUCCESS, payload: user});
+        yield put({type: AuthTypes.VERIFY_AUTH_SUCCESS, action: user});
     } else         {
-        yield put({type: AuthTypes.AUTH_CHECK_FAILURE});
+        yield put({type: AuthTypes.VERIFY_AUTH_FAILURE});
     }
 }
 
-function* watchForSuccess(action) {
-    console.tron.log("Checked auth success");
-
+function* onVerifyAuth_Success(action) {
 }
 
-function* watchForAuthFailure(action) {
-    console.tron.log("Failed to auth");
-}
+function* onVerifyAuth_Failure(action) {
 
+}
 
 /* ------------- Hookup Sagas To Types ------------- */
 
  export default function* root() {
-     yield takeLatest(AuthTypes.AUTH_CHECK, checkForAuth);
-     yield takeLatest(AuthTypes.AUTH_CHECK_SUCCESS, watchForSuccess);
-     yield takeLatest(AuthTypes.AUTH_CHECK_FAILURE, watchForAuthFailure);
+     yield takeEvery(AuthTypes.LOGIN_REQUEST, onLogin_Request);
+     yield takeEvery(AuthTypes.LOGIN_SUCCESS, onLogin_Success);
+     yield takeEvery(AuthTypes.LOGIN_FAILURE, onLogin_Failed);
 
-     yield takeLatest(AuthTypes.AUTH_CHECK_QUICK, checkForAuth);
+     yield takeEvery(AuthTypes.VERIFY_AUTH_REQUEST, onVerifyAuth_Request);
+     yield takeEvery(AuthTypes.VERIFY_AUTH_SUCCESS, onVerifyAuth_Success);
+     yield takeEvery(AuthTypes.VERIFY_AUTH_FAILURE, onVerifyAuth_Failure);
  }

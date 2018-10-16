@@ -1,61 +1,44 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
-import connect from "react-redux/es/connect/connect";
+import {connect} from 'react-redux';
 
 //Components
 import Logo from "../components/Logo";
-import UpdateStatus from "../components/UpdateStatus";
-
-//Redux
-import UpdaterRedux from "../redux/UpdaterRedux";
+import UpdateStatus from "../components/Status";
 
 //Selectors
-import AuthRedux, { isUserAuthenticated } from "../redux/AuthRedux";
+import InitRedux from "../redux/StartupRedux";
+
+import Styles from "../styles";
 
 
 class SplashScreen extends Component {
     constructor(props) {
         super(props);
 
-        this.props.getVersion();
-
-        // if(this.props.hasAuth) {
-        //     this.props.navigation.navigate('Splash');
-        // } else {
-        //     this.props.navigation.navigate('Login');
-        // }
+        this.props.startAppInit();
     }
 
     render () {
         return (
-            <View style={styles.container}>
+            <View style={Styles.container}>
                 <Logo />
-                <UpdateStatus />
+                <UpdateStatus header={"Status"} message={this.props.updateStatus} />
             </View>
         )
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#ff4a1a',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-});
-
 const mapStateToProps = (state) => {
     return {
-        hasAuth: isUserAuthenticated(state)
+        updateStatus: state.updater.updateStatus
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getVersion: () => dispatch(UpdaterRedux.getVersion()),
-        checkAuth: () => dispatch(AuthRedux.authCheckQuick()),
+        startAppInit: (payload : Object) => dispatch(InitRedux.startupRequest(payload)),
     }
 };
 

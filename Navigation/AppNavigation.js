@@ -5,8 +5,8 @@ import { reduxifyNavigator, createReactNavigationReduxMiddleware} from 'react-na
 
 //Screens
 import SplashScreen from '../screens/SplashScreen';
-import LoginScreen from '../screens/LoginScreen';
-import HomeScreen from '../containers/HubContainer';
+import AuthScreen from '../screens/AuthScreen';
+import HomeScreen from '../screens/HomeScreen';
 
 const middleware = createReactNavigationReduxMiddleware(
     'root',
@@ -15,7 +15,7 @@ const middleware = createReactNavigationReduxMiddleware(
 
 const RootNavigator = createStackNavigator({
     Splash: { screen: SplashScreen },
-    Login: { screen: LoginScreen },
+    Auth: { screen: AuthScreen },
     Home: { screen: HomeScreen },
 }, {
   // Default config for all screens
