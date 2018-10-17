@@ -11,8 +11,6 @@ const store = createStore();
 
 export default class App extends React.Component {
     render() {
-
-
         return (
             <Provider store={store}>
                 <ReduxNavigation />

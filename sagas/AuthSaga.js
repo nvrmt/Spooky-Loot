@@ -5,8 +5,6 @@ import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { AuthTypes } from "../redux/AuthRedux";
 import { NavigationActions } from "react-navigation";
 
-//TODO eventually seperate facebook and API logic code from sagas.
-
 // Login
 function* onLogin_Request(action) {
     const result = yield LoginManager.logInWithReadPermissions(['public_profile', 'email']);
@@ -22,9 +20,10 @@ function* onLogin_Request(action) {
     const data = yield AccessToken.getCurrentAccessToken();
 
     if (!data) {
-        throw new Error('Something went wrong obtaining the users access token'); // Handle this however fits the flow of your app
+        throw new Error('Something went wrong obtaining the users access token');
     }
 
+    // link between our fb and the firebase database
     const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
     const user = yield firebase.auth().signInAndRetrieveDataWithCredential(credential);
 
@@ -36,10 +35,16 @@ function* onLogin_Request(action) {
 }
 
 function* onLogin_Success(action) {
+    const { isNewUser, profile } = action.user.additionalUserInfo;
+    if(isNewUser) {
+        let userCol = yield firebase.firestore().collection('users');
+        yield userCol.add({email: profile.email});
+    }
+
     yield put(NavigationActions.navigate({ routeName: 'Home' }));
 }
 
-function* onLogin_Failed(action) {
+function* onLogin_Failure(action) {
 
 }
 
@@ -66,7 +71,7 @@ function* onVerifyAuth_Failure(action) {
  export default function* root() {
      yield takeEvery(AuthTypes.LOGIN_REQUEST, onLogin_Request);
      yield takeEvery(AuthTypes.LOGIN_SUCCESS, onLogin_Success);
-     yield takeEvery(AuthTypes.LOGIN_FAILURE, onLogin_Failed);
+     yield takeEvery(AuthTypes.LOGIN_FAILURE, onLogin_Failure);
 
      yield takeEvery(AuthTypes.VERIFY_AUTH_REQUEST, onVerifyAuth_Request);
      yield takeEvery(AuthTypes.VERIFY_AUTH_SUCCESS, onVerifyAuth_Success);

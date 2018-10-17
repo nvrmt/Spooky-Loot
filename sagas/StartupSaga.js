@@ -9,19 +9,21 @@ import { NavigationActions } from "react-navigation";
 
 // Mock flow -- auth check is GOD AWFUL.
 function* onStartup_Request() {
-    yield put({type: UpdaterTypes.GET_UPDATE});
-    yield delay(2000);
+    //yield put({type: UpdaterTypes.GET_UPDATE});
+    //yield delay(2000);
 
-    let res = null;
+    // let res = null;
+    //
+    // yield put({type: AuthTypes.VERIFY_AUTH_REQUEST});
+    // while(res == null) {
+    //     yield res = takeLatest(AuthTypes.VERIFY_AUTH_SUCCESS, onStartup_AuthSuccess);
+    //     yield res = takeLatest(AuthTypes.VERIFY_AUTH_FAILURE, onStartup_AuthFailure);
+    // }
+    //
+    // yield put({type: StartupTypes.STARTUP_SUCCESS, action: (res.FORK.args.indexOf("FAILURE")) ?
+    // "Auth" : "Home"});
 
-    yield put({type: AuthTypes.VERIFY_AUTH_REQUEST});
-    while(res == null) {
-        yield res = takeLatest(AuthTypes.VERIFY_AUTH_SUCCESS, onStartup_AuthSuccess);
-        yield res = takeLatest(AuthTypes.VERIFY_AUTH_FAILURE, onStartup_AuthFailure);
-    }
-
-    yield put({type: StartupTypes.STARTUP_SUCCESS, action: (res.FORK.args.indexOf("FAILURE")) ?
-    "Auth" : "Home"});
+    yield put(NavigationActions.navigate({ routeName: 'Home' }));
 }
 
 function* onStartup_Failure(action) {
