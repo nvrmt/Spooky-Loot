@@ -25,7 +25,7 @@ function* onLogin_Request(action) {
 
     // link between our fb and the firebase database
     const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
-    const user = yield firebase.auth().signInAndRetrieveDataWithCredential(credential);
+    const user = yield firebase.auth().signInWithCredential(credential);
 
     if(user != null) {
         yield put({type: AuthTypes.LOGIN_SUCCESS, user})
