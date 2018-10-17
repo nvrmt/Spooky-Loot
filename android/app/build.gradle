@@ -137,8 +137,9 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-firebase')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':react-native-maps')
+    implementation project(':react-native-firebase')
     implementation project(':react-native-fbsdk')
     //noinspection GradleCompatible
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
@@ -161,3 +162,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply plugin: 'com.google.gms.google-services'
+//com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
