@@ -10,7 +10,7 @@ import UpdateStatus from "../components/Status";
 //Selectors
 import InitRedux from "../redux/StartupRedux";
 
-import Styles from "../styles";
+import {DefaultStyles} from "../styles";
 
 
 class SplashScreen extends Component {
@@ -22,7 +22,7 @@ class SplashScreen extends Component {
 
     render () {
         return (
-            <View style={Styles.container}>
+            <View style={DefaultStyles.container}>
                 <Logo />
                 <UpdateStatus header={"Status"} message={this.props.updateStatus} />
             </View>

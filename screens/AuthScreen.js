@@ -7,7 +7,7 @@ import connect from "react-redux/es/connect/connect";
 import Logo from "../components/Logo";
 import Login from "../components/Login";
 
-import Styles from "../styles";
+import {DefaultStyles} from "../styles";
 
 //Selectors
 import AuthRedux, { isUserAuthenticated } from "../redux/AuthRedux";
@@ -16,7 +16,7 @@ import AuthRedux, { isUserAuthenticated } from "../redux/AuthRedux";
 class AuthScreen extends React.Component {
     render() {
         return (
-            <View style={Styles.container}>
+            <View style={DefaultStyles.container}>
                 <Logo />
                 <Login />
             </View>
