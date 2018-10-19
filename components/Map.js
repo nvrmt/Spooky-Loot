@@ -1,14 +1,15 @@
 import React from 'react';
 import MapView from 'react-native-maps';
 import MapRedux from "../redux/MapRedux";
+import {connect} from "react-redux";
 
-export default class Map extends React.Component {
+class Map extends React.Component {
     constructor(props) {
         super(props);
     }
 
     componentDidMount() {
-
+        console.tron.log(this.props.store)
     }
 
     onPress(e) {
@@ -37,3 +38,16 @@ export default class Map extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        map: state.mapRef
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Map);

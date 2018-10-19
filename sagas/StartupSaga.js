@@ -23,7 +23,7 @@ function* onStartup_Request() {
     yield put({type: StartupTypes.STARTUP_SUCCESS, action: (res.FORK.args.indexOf("FAILURE")) ?
     "Auth" : "Home"});
 
-    yield put(NavigationActions.navigate({ routeName: 'Home' }));
+   // yield put(NavigationActions.navigate({ routeName: 'Home' }));
 }
 
 function* onStartup_Failure(action) {

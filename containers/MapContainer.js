@@ -44,10 +44,10 @@ class MapContainer extends React.Component {
 
     // map listeners
     onMapReady = (e) => {
-        console.tron.logImportant(e);
+        console.tron.logImportant(this.props);
         this.setState({mapLoaded: true});
 
-        this.props.loadMapExtras();
+        this.props.loadMapExtras(this.props.mapView);
     };
 
     onPress = (e) => {
@@ -67,13 +67,13 @@ class MapContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-
+        mapView: state.map.mapView
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadMapExtras: () => dispatch(MapRedux.loadMapRequest()),
+        loadMapExtras: (mapObject : Object) => dispatch(MapRedux.loadMapRequest(mapObject)),
     };
 };
 

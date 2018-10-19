@@ -23,19 +23,24 @@ const Types = MapTypes;
 export const INITIAL_STATE = Immutable({
     syncedWithServer: false,
     error: null,
-    loadingMap: false
+    loadingMap: false,
+    mapView: null
 });
 
 /* ------------- Reducers ------------- */
 
 // Login
 export const loadMap_Request = (state, action) =>
-    produce(state, draft => {draft.loadingMap = true});
+    produce(state, draft => {
+        draft.loadingMap = true;
+        draft.mapView = action.mapView;
+        draft.error = action.error;
+    });
 
 export const loadMap_Success = (state, action) =>
     produce(state, draft => {
         draft.loadingMap = false;
-        draft.user = action.user;
+        draft.error = action.error;
 });
 
 export const loadMap_Failure = (state, action) =>

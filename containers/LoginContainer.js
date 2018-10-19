@@ -1,9 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import Login from "../components/Login";
 
 import LoginRedux from '../redux/AuthRedux';
 
+import { Container, Header, Content, Button, Text } from 'native-base';
+import InitRedux from "../redux/StartupRedux";
 
 class LoginContainer extends React.Component {
     constructor(props) {
@@ -12,14 +13,20 @@ class LoginContainer extends React.Component {
 
     render() {
         return (
-            <Login />
+            <Button rounded onPress={this.onPress}>
+                <Text>Connect with Facebook</Text>
+            </Button>
         );
+    }
+
+    onPress = () => {
+        this.props.login();
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loginRequest: () => dispatch(LoginRedux.loginRequest),
+        login: (payload : Object) => dispatch(LoginRedux.loginRequest(payload)),
     };
 };
 

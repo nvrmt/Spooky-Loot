@@ -4,9 +4,8 @@ export const DefaultStyles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
         flex: 1,
-        backgroundColor: '#ff4a1a',
+        backgroundColor: '#faefea',
         alignItems: 'center',
-        justifyContent: 'center'
     },
     map: {
         ...StyleSheet.absoluteFillObject,
@@ -17,6 +16,7 @@ export const MapStyles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
         flex: 1,
+        backgroundColor: '#fa3f39',
         alignItems: 'center',
         justifyContent: 'center'
     },
