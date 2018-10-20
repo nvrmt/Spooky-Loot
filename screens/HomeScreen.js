@@ -4,12 +4,14 @@ import {connect} from 'react-redux';
 
 import MapContainer from "../containers/MapContainer";
 
-import Styles from "../styles";
+import Styles, {styles} from "../styles";
 
 class HomeScreen extends React.Component {
     render() {
         return (
-            <MapContainer />
+            <View style={styles.container}>
+                <MapContainer />
+            </View>
         );
     }
 }

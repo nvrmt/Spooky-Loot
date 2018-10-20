@@ -36,7 +36,7 @@ export const startup_Request = (state, action) =>
 
 export const startup_Success = (state, action) =>
     produce(state, draft => {
-
+        draft.checkedForUpdates = true;
     });
 
 export const startup_Failure = (state, action) =>

@@ -4,7 +4,10 @@ import {connect} from 'react-redux';
 import LoginRedux from '../redux/AuthRedux';
 
 import { Container, Header, Content, Button, Text } from 'native-base';
+
 import InitRedux from "../redux/StartupRedux";
+
+import { AuthStyles } from '../styles';
 
 class LoginContainer extends React.Component {
     constructor(props) {
@@ -13,7 +16,7 @@ class LoginContainer extends React.Component {
 
     render() {
         return (
-            <Button rounded onPress={this.onPress}>
+            <Button style={AuthStyles.loginButton} rounded onPress={this.onPress}>
                 <Text>Connect with Facebook</Text>
             </Button>
         );

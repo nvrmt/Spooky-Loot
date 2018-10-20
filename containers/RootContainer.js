@@ -1,12 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {View} from 'react-native';
-
 import ReduxNavigation from '../navigation/ReduxNavigation'
-import InitRedux from "../redux/StartupRedux";
-
-import {DefaultStyles} from '../styles';
+import InitRedux, {isUpdated} from "../redux/StartupRedux";
 
 
 class RootContainer extends React.Component {
@@ -15,13 +11,15 @@ class RootContainer extends React.Component {
     }
 
     render() {
-        return (
-            <View style={DefaultStyles.container}>
-                <ReduxNavigation />
-            </View>
-        )
+        return (<ReduxNavigation />)
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        isUpdated: isUpdated(state)
+    }
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -29,4 +27,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(null, mapDispatchToProps)(RootContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(RootContainer);

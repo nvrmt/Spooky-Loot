@@ -31,6 +31,7 @@ class MapContainer extends React.Component {
                         latitudeDelta: 0.015,
                         longitudeDelta: 0.0121,
                     }}
+                    showsUserLocation={true}
                     minZoomLevel={18}
                     onPress={this.onPress}
                     onUserLocationChange={this.onUserChanged}
@@ -44,7 +45,6 @@ class MapContainer extends React.Component {
 
     // map listeners
     onMapReady = (e) => {
-        console.tron.logImportant(this.props);
         this.setState({mapLoaded: true});
 
         this.props.loadMapExtras(this.props.mapView);

@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import Logo from "../components/Logo";
 import UpdateStatus from "../components/Status";
 
-import {MapStyles} from "../styles";
+import {styles} from "../styles";
 
 
 class SplashScreen extends React.Component {
@@ -15,9 +15,12 @@ class SplashScreen extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+    }
+
     render () {
         return (
-            <View style={MapStyles.container}>
+            <View style={styles.container}>
                 <Logo />
                 <UpdateStatus header={"Status"} message={this.props.updateStatus} />
             </View>

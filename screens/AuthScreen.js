@@ -8,7 +8,7 @@ import Logo from "../components/Logo";
 
 
 import LoginContainer from "../containers/LoginContainer";
-import {DefaultStyles} from "../styles";
+import {AuthStyles} from "../styles";
 
 //Selectors
 import AuthRedux, { isUserAuthenticated } from "../redux/AuthRedux";
@@ -16,7 +16,7 @@ import AuthRedux, { isUserAuthenticated } from "../redux/AuthRedux";
 class AuthScreen extends React.Component {
     render() {
         return (
-            <View style={DefaultStyles.container}>
+            <View style={AuthStyles.container}>
                 <Logo />
                 <LoginContainer />
             </View>
@@ -34,4 +34,4 @@ const mapDispatchToProps = (dispatch) => {
     return {}
 };
 
-export default connect(mapStateToProps, null)(AuthScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);

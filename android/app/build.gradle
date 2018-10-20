@@ -147,11 +147,13 @@ dependencies {
     // From node_modules
 
     // Firebase dependencies
-    implementation "com.google.android.gms:play-services-base:15.0.1"
-    implementation "com.google.firebase:firebase-core:16.0.3"
-    implementation "com.google.firebase:firebase-firestore:17.1.0"
-    implementation "com.google.firebase:firebase-auth:16.0.3"
+    implementation "com.google.firebase:firebase-core:16.0.4"
+    implementation "com.google.firebase:firebase-firestore:17.1.1"
+    implementation "com.google.firebase:firebase-auth:16.0.4"
 
+    // Arch
+    implementation "android.arch.core:runtime:1.1.1"
+    implementation "android.arch.core:common:1.1.1"
 }
 
 // Run this once to be able to run the application with BUCK

@@ -1,22 +1,44 @@
 import {StyleSheet} from "react-native";
 
-export const DefaultStyles = StyleSheet.create({
+export const styles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
         flex: 1,
-        backgroundColor: '#faefea',
+        backgroundColor: '#f36700',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    rootContainer: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: '#fa001e',
         alignItems: 'center',
     },
-    map: {
-        ...StyleSheet.absoluteFillObject,
-    },
+    logo: {
+        marginBottom: 20,
+        alignSelf:'center'
+    }
 });
+
+export const AuthStyles = StyleSheet.create({
+    container: {
+        ...StyleSheet.absoluteFillObject,
+        flex: 1,
+        backgroundColor: '#f36700',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    loginButton: {
+        backgroundColor: '#485efa',
+        alignSelf:'center'
+    }
+});
+
 
 export const MapStyles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
         flex: 1,
-        backgroundColor: '#fa3f39',
+        backgroundColor: '#f36700',
         alignItems: 'center',
         justifyContent: 'center'
     },
