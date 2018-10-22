@@ -1,29 +1,28 @@
-import { call, take, takeEvery, put, takeLatest, select  } from 'redux-saga/effects'
+import { call, take, takeEvery, put, takeLatest, select, race  } from 'redux-saga/effects'
 import { delay } from 'redux-saga';
 
 
 import { StartupTypes } from "../redux/StartupRedux";
 import { UpdaterTypes } from "../redux/UpdaterRedux";
 import { AuthTypes } from "../redux/AuthRedux";
+import { MapTypes } from "../redux/MapRedux";
 import { NavigationActions } from "react-navigation";
 
 // Mock flow -- auth check is GOD AWFUL.
 function* onStartup_Request() {
-    //yield put({type: UpdaterTypes.GET_UPDATE});
-    //yield delay(2000);
+    yield put({type: UpdaterTypes.GET_UPDATE});
+    yield delay(2000);
 
-    // let res = null;
-    //
-    // yield put({type: AuthTypes.VERIFY_AUTH_REQUEST});
-    // while(res == null) {
-    //     yield res = takeLatest(AuthTypes.VERIFY_AUTH_SUCCESS, onStartup_AuthSuccess);
-    //     yield res = takeLatest(AuthTypes.VERIFY_AUTH_FAILURE, onStartup_AuthFailure);
-    // }
+    yield put({type: MapTypes.LOAD_MAP_REQUEST});
 
-    // yield put({type: StartupTypes.STARTUP_SUCCESS, action: (res.FORK.args.indexOf("FAILURE")) ?
-    // "Auth" : "Home"});
+    yield put({type: AuthTypes.VERIFY_AUTH_REQUEST});
 
-    yield put(NavigationActions.navigate({ routeName: 'Home' }));
+    const { success, failure } = yield race({
+        success: take(AuthTypes.VERIFY_AUTH_SUCCESS),
+        failure: take(AuthTypes.VERIFY_AUTH_FAILURE)
+    });
+
+    yield put({type: StartupTypes.STARTUP_SUCCESS, action: (success) ? "Home" : "Auth"});
 }
 
 function* onStartup_Failure(action) {

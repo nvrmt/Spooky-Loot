@@ -20,4 +20,6 @@ export default class App extends React.Component {
 }
 
 // Dev settings
-console.disableYellowBox = true;
+export const isDev = false;
+if(isDev)
+    console.disableYellowBox = true;

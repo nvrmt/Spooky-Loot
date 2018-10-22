@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-
 import {connect} from 'react-redux';
+import { PermissionsAndroid } from 'react-native';
 
 //Components
 import Logo from "../components/Logo";
@@ -16,6 +16,25 @@ class SplashScreen extends React.Component {
     }
 
     componentDidMount() {
+        let requested = this.requestAndroidFineLocation();
+    }
+
+    async requestAndroidFineLocation() {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                {
+                    'title': 'Spooky Loot',
+                    'message': 'Spooky Loot needs access to your location, as' +
+                        'this is a map based app.'
+                }
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log("Permission to use gps granted.");
+            }
+        } catch (err) {
+            console.warn(err);
+        }
     }
 
     render () {

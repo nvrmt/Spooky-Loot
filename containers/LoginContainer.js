@@ -16,7 +16,7 @@ class LoginContainer extends React.Component {
 
     render() {
         return (
-            <Button style={AuthStyles.loginButton} rounded onPress={this.onPress}>
+            <Button style={AuthStyles.loginButton} block onPress={this.onPress}>
                 <Text>Connect with Facebook</Text>
             </Button>
         );

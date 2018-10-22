@@ -3,13 +3,17 @@ import Reactotron from 'reactotron-react-native';
 import { reactotronRedux as reduxPlugin } from 'reactotron-redux';
 import sagaPlugin from 'reactotron-redux-saga';
 
+import { isDev } from '../containers/App';
 
-Reactotron
-    .configure({ name: 'SpookyLoot' })
-    .useReactNative()
-    .use(reduxPlugin({ onRestore: Immutable }))
-    .use(sagaPlugin())
-    .connect();
+if(isDev) {
+    Reactotron
+        .configure({ name: 'SpookyLoot' })
+        .useReactNative()
+        .use(reduxPlugin({ onRestore: Immutable }))
+        .use(sagaPlugin())
+        .connect();
 
-Reactotron.clear();
-console.tron = Reactotron;
+    Reactotron.clear();
+
+    console.tron = Reactotron;
+}

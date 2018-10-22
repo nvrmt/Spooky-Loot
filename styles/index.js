@@ -5,8 +5,9 @@ export const styles = StyleSheet.create({
         ...StyleSheet.absoluteFillObject,
         flex: 1,
         backgroundColor: '#f36700',
-        alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center'
     },
     rootContainer: {
         ...StyleSheet.absoluteFillObject,
@@ -29,7 +30,7 @@ export const AuthStyles = StyleSheet.create({
     },
     loginButton: {
         backgroundColor: '#485efa',
-        alignSelf:'center'
+        alignSelf: 'center'
     }
 });
 

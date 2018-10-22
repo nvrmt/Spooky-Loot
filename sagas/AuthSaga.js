@@ -5,12 +5,14 @@ import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { AuthTypes } from "../redux/AuthRedux";
 import { NavigationActions } from "react-navigation";
 
+import { addUser } from '../api/FirebaseAPI';
+
 // Login
 function* onLogin_Request(action) {
     const result = yield LoginManager.logInWithReadPermissions(['public_profile', 'email']);
 
     if (result.isCancelled) {
-        console.tron.log("Cancelled login.");
+        console.log("Cancelled login.");
         yield delay(1000); // after 1 second re-send login request aka, making the modal launch again
         yield put({type: AuthTypes.LOGIN_REQUEST});
         return;
@@ -20,7 +22,8 @@ function* onLogin_Request(action) {
     const data = yield AccessToken.getCurrentAccessToken();
 
     if (!data) {
-        throw new Error('Something went wrong obtaining the users access token');
+        yield put({type: AuthTypes.LOGIN_FAILURE, error: "Something went wrong obtaining the users access token"});
+        return;
     }
 
     // link between our fb and the firebase database
@@ -30,22 +33,21 @@ function* onLogin_Request(action) {
     if(user != null) {
         yield put({type: AuthTypes.LOGIN_SUCCESS, user})
     } else {
-        yield put({type: AuthTypes.LOGIN_FAILURE});
+        yield put({type: AuthTypes.LOGIN_FAILURE, error: "User object was null."});
     }
 }
 
 function* onLogin_Success(action) {
-    const { isNewUser, profile } = action.user.additionalUserInfo;
+    const { isNewUser } = action.user.additionalUserInfo;
     if(isNewUser) {
-        let userCol = yield firebase.firestore().collection('users');
-        yield userCol.add({email: profile.email});
+        yield addUser(action.user);
     }
 
     yield put(NavigationActions.navigate({ routeName: 'Home' }));
 }
 
 function* onLogin_Failure(action) {
-
+    console.log(action.error);
 }
 
 // Verify Auth

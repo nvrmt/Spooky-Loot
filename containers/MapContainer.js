@@ -1,10 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import Map from "../components/Map";
-
-import { Button, View } from 'react-native';
-
-import MapRedux from '../redux/MapRedux';
+import MapRedux, {mapMarkers} from '../redux/MapRedux';
 
 import {MapStyles} from "../styles";
 import MapView from "react-native-maps";
@@ -14,46 +10,69 @@ class MapContainer extends React.Component {
         super(props);
 
         this.state = {
-            mapLoaded: false,
-            markers: []
+            mapLoaded: false
         };
+    }
+    componentDidMount() {
+        this.watchID = navigator.geolocation.watchPosition(
+            position => {
+                const { coordinate } = this.state;
+                const { latitude, longitude } = position.coords;
+                console.log(coordinate);
+
+                this.setState({
+                    latitude,
+                    longitude
+                });
+            },
+            error => console.log(error),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+        );
     }
 
     render() {
+
         return (
-            <View style={MapStyles.container}>
-                <MapView
-                    ref={(ref) => this.mapRef = ref}
-                    style={MapStyles.map}
-                    region={{
-                        latitude: 49.325360,
-                        longitude: -123.115439,
-                        latitudeDelta: 0.015,
-                        longitudeDelta: 0.0121,
-                    }}
-                    showsUserLocation={true}
-                    minZoomLevel={18}
-                    onPress={this.onPress}
-                    onUserLocationChange={this.onUserChanged}
-                    onCalloutPress={this.onCalloutPress}
-                    onMapReady={this.onMapReady}
-                >
-                </MapView>
-            </View>
+            <MapView
+                ref={(ref) => this.mapRef = ref}
+                style={MapStyles.map}
+                mapType={'hybrid'}
+                region={{
+                    latitude: 49.325360,
+                    longitude: -123.115439,
+                    latitudeDelta: 0.015,
+                    longitudeDelta: 0.0121,
+                }}
+                showsUserLocation
+                showsMyLocationButton
+                followsUserLocation
+                loadingEnabled
+                minZoomLevel={15}
+                onPress={this.onPress}
+                onUserLocationChange={this.onUserLocationChange}
+                onCalloutPress={this.onCalloutPress}
+                onMapReady={this.onMapReady}
+            >
+            {this.props.loadedMarkers.map(marker => (
+                <MapView.Marker
+                    coordinate={marker.latlng}
+                    title={marker.title}
+                    description={marker.description}
+                />
+            ))}
+            </MapView>
         );
     }
 
     // map listeners
     onMapReady = (e) => {
         this.setState({mapLoaded: true});
-
-        this.props.loadMapExtras(this.props.mapView);
     };
 
     onPress = (e) => {
         const { position, coordinate } = e.nativeEvent;
         this.mapRef.animateToCoordinate(coordinate, 1000);
-
+        this.props.findPlace(coordinate);
     };
 
     onUserLocationChange = (e) => {
@@ -67,13 +86,14 @@ class MapContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        mapView: state.map.mapView
+        loadedMarkers: mapMarkers(state)
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         loadMapExtras: (mapObject : Object) => dispatch(MapRedux.loadMapRequest(mapObject)),
+        findPlace: (mapObject : Object) => dispatch(MapRedux.findPlaceRequest(mapObject))
     };
 };
 
