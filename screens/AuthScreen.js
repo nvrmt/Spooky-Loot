@@ -1,24 +1,24 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
-import connect from "react-redux/es/connect/connect";
+import {connect} from "react-redux";
 
 //Components
 import Logo from "../components/Logo";
-import Login from "../components/Login";
 
-import Styles from "../styles";
+
+import LoginContainer from "../containers/LoginContainer";
+import {AuthStyles} from "../styles";
 
 //Selectors
 import AuthRedux, { isUserAuthenticated } from "../redux/AuthRedux";
 
-
 class AuthScreen extends React.Component {
     render() {
         return (
-            <View style={Styles.container}>
+            <View style={AuthStyles.container}>
                 <Logo />
-                <Login />
+                <LoginContainer />
             </View>
         )
     }

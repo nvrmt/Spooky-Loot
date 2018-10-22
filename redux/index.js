@@ -7,8 +7,8 @@ import { RootNavigator } from '../navigation/AppNavigation';
 //Reducers
 import {reducer as UpdaterReducer} from "../redux/UpdaterRedux";
 import {reducer as AuthReducer} from "../redux/AuthRedux";
-import {reducer as InitReducer} from "./StartupRedux";
-
+import {reducer as StartupReducer} from "./StartupRedux";
+import {reducer as MapReducer} from "./MapRedux";
 
 const navReducer = createNavigationReducer(RootNavigator);
 
@@ -17,9 +17,11 @@ const navReducer = createNavigationReducer(RootNavigator);
 export const reducers = combineReducers({
     nav: navReducer,
     updater: UpdaterReducer,
-    authorization: AuthReducer,
-    init: InitReducer,
+    auth: AuthReducer,
+    startup: StartupReducer,
+    map: MapReducer
 });
+
 
 export default () => {
     let { store, sagasManager, sagaMiddleware } = configureStore(reducers, rootSaga);

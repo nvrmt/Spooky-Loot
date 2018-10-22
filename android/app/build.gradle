@@ -95,7 +95,6 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-
     defaultConfig {
         applicationId "com.spookyloot"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -115,9 +114,20 @@ android {
             include "armeabi-v7a", "x86"
         }
     }
+    signingConfigs {
+        release {
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
@@ -137,20 +147,22 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-firebase')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':react-native-maps')
+    implementation project(':react-native-firebase')
     implementation project(':react-native-fbsdk')
     //noinspection GradleCompatible
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation 'com.facebook.react:react-native:+'
     // From node_modules
-
     // Firebase dependencies
-    implementation "com.google.android.gms:play-services-base:15.0.1"
-    implementation "com.google.firebase:firebase-core:16.0.3"
-    implementation "com.google.firebase:firebase-firestore:17.1.0"
-    implementation "com.google.firebase:firebase-auth:16.0.3"
+    implementation 'com.google.firebase:firebase-core:16.0.4'
+    implementation 'com.google.firebase:firebase-firestore:17.1.1'
+    implementation 'com.google.firebase:firebase-auth:16.0.5'
 
+    // Arch -- fixes a bug
+    implementation 'android.arch.core:runtime:1.1.1'
+    implementation 'android.arch.core:common:1.1.1'
 }
 
 // Run this once to be able to run the application with BUCK
@@ -161,3 +173,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply plugin: 'com.google.gms.google-services'
+//com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true

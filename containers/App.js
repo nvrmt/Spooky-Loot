@@ -3,7 +3,7 @@ import {Provider, connect} from 'react-redux';
 
 import createStore from '../redux';
 
-import ReduxNavigation from '../navigation/ReduxNavigation'
+import RootContainer from './RootContainer';
 
 //Sets up sagas and redux
 const store = createStore();
@@ -13,11 +13,13 @@ export default class App extends React.Component {
     render() {
         return (
             <Provider store={store}>
-                <ReduxNavigation />
+                <RootContainer />
             </Provider>
         )
     }
 }
 
 // Dev settings
-console.disableYellowBox = true;
+export const isDev = false;
+if(isDev)
+    console.disableYellowBox = true;

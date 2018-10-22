@@ -42,6 +42,11 @@ buck-out/
 \.buckd/
 *.keystore
 
+# misc scripts
+ios-config.json
+Script/**/*.apk
+Script/**/*.ipa
+Script/**/*.plist
 # fastlane
 #
 # It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the

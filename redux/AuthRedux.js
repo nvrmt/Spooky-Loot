@@ -6,7 +6,7 @@ import {StartupTypes} from "./StartupRedux";
 /* ------------- Types and Action Creators ------------- */
 
 const { Creators } = createActions({
-    loginRequest: null,
+    loginRequest: [],
 });
 
 export const AuthTypes = createTypes(`

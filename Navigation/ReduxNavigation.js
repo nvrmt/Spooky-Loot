@@ -1,7 +1,7 @@
 import React from 'react'
 import {BackHandler, Platform} from 'react-native'
 import {connect} from 'react-redux'
-import { AppNavigator } from './/AppNavigation';
+import { AppNavigator } from './AppNavigation';
 import NavigationActions from "react-navigation/src/NavigationActions";
 
 class ReduxNavigation extends React.Component {
@@ -15,7 +15,7 @@ class ReduxNavigation extends React.Component {
 
     onBackPress = () => {
         const { dispatch, nav } = this.props;
-        if (nav.index === 0) {
+        if (nav.index === 0 || nav.index === 1) {
             return false;
         }
 
