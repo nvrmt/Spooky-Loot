@@ -2,8 +2,6 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga';
 import { middleware as navMiddleware } from '../navigation/AppNavigation';
 
-import { isDev } from '../containers/App';
-
 // creates the store
 export default (rootReducer, rootSaga) => {
     /* ------------- Redux Configuration ------------- */
@@ -17,7 +15,7 @@ export default (rootReducer, rootSaga) => {
 
     /* ------------- Saga Middleware ------------- */
 
-    const sagaMonitor = (isDev) ? console.tron.createSagaMonitor() : null;
+    const sagaMonitor = (__DEV__) ? console.tron.createSagaMonitor() : null;
     const sagaMiddleware = createSagaMiddleware({ sagaMonitor });
     middleware.push(sagaMiddleware);
 
@@ -25,7 +23,7 @@ export default (rootReducer, rootSaga) => {
 
     enhancers.push(applyMiddleware(...middleware));
 
-    const createAppropriateStore = (isDev) ? console.tron.createStore : createStore;
+    const createAppropriateStore = (__DEV__) ? console.tron.createStore : createStore;
     const store = createAppropriateStore(rootReducer, compose(...enhancers));
 
 

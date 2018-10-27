@@ -6,7 +6,7 @@ import {StartupTypes} from "./StartupRedux";
 /* ------------- Types and Action Creators ------------- */
 
 const { Creators } = createActions({
-    loginRequest: [],
+    loginRequest: null,
 });
 
 export const AuthTypes = createTypes(`
@@ -56,7 +56,7 @@ export const verifyAuth_Request = (state, action) =>
 export const verifyAuth_Success = (state, action) =>
     produce(state, draft => {
         draft.checking = false;
-        draft.user = action.payload;
+        draft.user = action.user;
     });
 
 export const verifyAuth_Failure = (state, action) =>
@@ -79,6 +79,3 @@ export const reducer = createReducer(INITIAL_STATE, {
 
 
 /* ------------- Selectors ------------- */
-
-// check if authorized isn't false to confirm we're authorized
-export const isUserAuthenticated = (authState: Object) => authState.user !== null;

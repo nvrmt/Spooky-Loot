@@ -3,15 +3,37 @@ import firebase from 'react-native-firebase';
 
 /* Firestore functions */
 
-// adds 'new' user information to the database (not same as registering)
-export function addUser(user) {
-    const { profile } = user.additionalUserInfo;
+export function updatePlace(place : Object) {
+    const ref = firebase.firestore().collection('places').doc(place.placeId);
 
-    let userCol = firebase.firestore().collection('users');
-    return userCol.add({email: profile.email});
+    ref.set({
+        placeId: place.placeId,
+        title: place.title,
+        description: place.description,
+        latlng: place.latlng,
+        votes: place.votes
+    }, {merge: true});
 }
 
-export function addPlace(placeId) {
-    let placeCol = firebase.firestore().collection('places');
-    return placeCol.add({placeId: placeId});
+
+// also adds users
+export function updateUser(user) {
+    const { displayName, email, uid, metadata } = user.user;
+
+    const ref = firebase.firestore().collection('users');
+
+    ref.doc(uid).set({
+        displayName: displayName,
+        email: email,
+        creationTime: metadata.creationTime,
+        displayPicture: 1
+    }, {merge: true});
+}
+
+export function loadUser(user) {
+    const { uid } = user.user;
+
+    const ref = firebase.firestore().collection('users');
+
+    const doc = ref.doc(uid).get();
 }

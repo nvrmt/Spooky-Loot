@@ -3,9 +3,8 @@ import Reactotron from 'reactotron-react-native';
 import { reactotronRedux as reduxPlugin } from 'reactotron-redux';
 import sagaPlugin from 'reactotron-redux-saga';
 
-import { isDev } from '../containers/App';
 
-if(isDev) {
+if(__DEV__) {
     Reactotron
         .configure({ name: 'SpookyLoot' })
         .useReactNative()

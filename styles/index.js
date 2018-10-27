@@ -4,9 +4,8 @@ export const styles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
         flex: 1,
-        backgroundColor: '#f36700',
+        backgroundColor: '#ff9800',
         justifyContent: 'center',
-        alignContent: 'center',
         alignItems: 'center'
     },
     rootContainer: {
@@ -24,7 +23,7 @@ export const AuthStyles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
         flex: 1,
-        backgroundColor: '#f36700',
+        backgroundColor: '#ff9800',
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -39,7 +38,7 @@ export const MapStyles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
         flex: 1,
-        backgroundColor: '#f36700',
+        backgroundColor: '#ff9800',
         alignItems: 'center',
         justifyContent: 'center'
     },

@@ -34,4 +34,4 @@ echo 'Start build apk'
 
 cd ${ROOT_DIR}/android && ./gradlew assembleRelease
 
-mv ${ROOT_DIR}/android/app/build/outputs/apk/*.apk ${ROOT_DIR}/Script/server/dist/android/ANDROID.apk
+mv ${ROOT_DIR}/android/app/build/outputs/apk/release/app-release.apk ${ROOT_DIR}/Script/server/dist/android/ANDROID.apk

@@ -1,30 +1,24 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import ReduxNavigation from '../navigation/ReduxNavigation'
-import InitRedux, {isUpdated} from "../redux/StartupRedux";
-
+import ReduxNavigation from '../navigation/ReduxNavigation';
+import InitRedux from '../redux/StartupRedux';
 
 class RootContainer extends React.Component {
-    componentDidMount() {
-       this.props.startAppInit();
-    }
+	componentDidMount() {
+		this.props.startAppInit();
+	}
 
-    render() {
-        return (<ReduxNavigation />)
-    }
+	render() {
+		return <ReduxNavigation />;
+	}
 }
 
-const mapStateToProps = (state) => {
-    return {
-        isUpdated: isUpdated(state)
-    }
+
+const mapDispatchToProps = dispatch => {
+	return {
+		startAppInit: (payload) => dispatch(InitRedux.startupRequest(payload))
+	};
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        startAppInit: (payload : Object) => dispatch(InitRedux.startupRequest(payload)),
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RootContainer);
+export default connect(null, mapDispatchToProps)(RootContainer);

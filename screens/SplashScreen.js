@@ -1,13 +1,17 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import {StyleSheet, PermissionsAndroid, Dimensions} from 'react-native';
 import {connect} from 'react-redux';
-import { PermissionsAndroid } from 'react-native';
+
+import { Container, Card, CardItem, Header, H1, Content, Left, Right, Footer, FooterTab, Title, Icon, Body } from 'native-base';
+import { Col, Row, Grid } from 'react-native-easy-grid';
+
 
 //Components
 import Logo from "../components/Logo";
 import UpdateStatus from "../components/Status";
 
 import {styles} from "../styles";
+import {getUpdateStatus} from "../redux/UpdaterRedux";
 
 
 class SplashScreen extends React.Component {
@@ -19,6 +23,7 @@ class SplashScreen extends React.Component {
         let requested = this.requestAndroidFineLocation();
     }
 
+    //TODO create permissions manager... saga?
     async requestAndroidFineLocation() {
         try {
             const granted = await PermissionsAndroid.request(
@@ -38,24 +43,37 @@ class SplashScreen extends React.Component {
     }
 
     render () {
+        const {height, width} = Dimensions.get('window');
+
+        const cardStyle = {
+            alignSelf: 'center',
+            width: width / 1.5,
+            height: height / 2.5
+        };
+
         return (
-            <View style={styles.container}>
-                <Logo />
-                <UpdateStatus header={"Status"} message={this.props.updateStatus} />
-            </View>
+            <Container style={styles.container}>
+                <Content padder style={cardStyle}>
+                    <Card enableEmptySections >
+                        <Grid>
+                            <Row size={25}>
+                                <Logo />
+                            </Row>
+                            <Row size={75}>
+                                <UpdateStatus header={"Status"} message={this.props.updateStatus} />
+                            </Row>
+                        </Grid>
+                    </Card>
+                </Content>
+            </Container>
         )
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        updateStatus: state.updater.updateStatus
+        updateStatus: getUpdateStatus(state)
     }
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen);
+export default connect(mapStateToProps, null)(SplashScreen);

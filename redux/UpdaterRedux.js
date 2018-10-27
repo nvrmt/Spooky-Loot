@@ -1,10 +1,10 @@
-import { createReducer, createActions } from 'reduxsauce';
+import {createReducer, createActions} from 'reduxsauce';
 import Immutable from 'seamless-immutable';
 import produce from 'immer';
 
 /* ------------- Types and Action Creators ------------- */
 
-const { Types, Creators } = createActions({
+const {Types, Creators} = createActions({
     getUpdate: ['version'],
     getUpdateSuccess: ['version'],
     getUpdateFailure: null,
@@ -62,12 +62,13 @@ export const sendUpdateStatus = (state, action) =>
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.GET_UPDATE]: request,
-  [Types.GET_UPDATE_SUCCESS]: success,
-  [Types.GET_UPDATE_FAILURE]: failure,
+    [Types.GET_UPDATE]: request,
+    [Types.GET_UPDATE_SUCCESS]: success,
+    [Types.GET_UPDATE_FAILURE]: failure,
     [Types.SEND_UPDATE_STATUS]: sendUpdateStatus,
 });
 
 /* ------------- Selectors ------------- */
 
-export const isLatestVersion = (updateState: Object) => updateState.latestVersion > 0;
+export const isLatestVersion = (updateState: Object) => updateState.updater.latestVersion > 0;
+export const getUpdateStatus = (updateState : Object) => updateState.updater.updateStatus;

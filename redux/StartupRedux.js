@@ -22,8 +22,7 @@ const Types = StartupTypes;
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-    checkedForUpdates: false,
-    initialAuthCheck: false,
+    checkedForUpdates: false
 });
 
 /* ------------- Reducers ------------- */
@@ -55,4 +54,4 @@ export const reducer = createReducer(INITIAL_STATE, {
 
 /* ------------- Selectors ------------- */
 
-export const isUpdated = (initState: Object) => initState.checkedForUpdates === true;
+export const isUpdated = (initState: Object) => initState.startup.checkedForUpdates === true;

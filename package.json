@@ -29,7 +29,10 @@
     "react-native-easy-grid": "latest",
     "express": "^4.16.2",
     "open": "0.0.5",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "lodash.memoize": "latest",
+    "reselect": "latest",
+    "react-native-modal": "latest"
   },
   "devDependencies": {
     "babel-jest": "23.6.0",

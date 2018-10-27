@@ -20,6 +20,7 @@ export default class App extends React.Component {
 }
 
 // Dev settings
-export const isDev = false;
-if(isDev)
+if(__DEV__) {
+    console.tron.overlay(App);
     console.disableYellowBox = true;
+}
